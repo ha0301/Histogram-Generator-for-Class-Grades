@@ -8,7 +8,6 @@ function parseCSVData(csvData) {
             const name = columns[0].trim();
             const numericGrade = parseFloat(columns[1].trim());
 
-            // Create a student object and add it to the students array
             students.push(new Student(name, numericGrade));
         }
     }
@@ -26,7 +25,8 @@ class Student{
 
 class LetterGrade {
     static convert(numericGrade) {
-        if (numericGrade >= document.getElementById("AplusBoundaryInput").value) return "A+";
+        if (numericGrade > document.getElementById("MaxBoundaryInput").value){}
+        else if (numericGrade <= document.getElementById("MaxBoundaryInput").value && numericGrade >= document.getElementById("AplusBoundaryInput").value) return "A+";
         else if (numericGrade >= document.getElementById("ABoundaryInput").value) return "A";
         else if (numericGrade >= document.getElementById("AminusBoundaryInput").value) return "A-";
         else if (numericGrade >= document.getElementById("BplusBoundaryInput").value) return "B+";
@@ -36,7 +36,8 @@ class LetterGrade {
         else if (numericGrade >= document.getElementById("CBoundaryInput").value) return "C";
         else if (numericGrade >= document.getElementById("CminusBoundaryInput").value) return "C-";
         else if (numericGrade >= document.getElementById("DBoundaryInput").value) return "D";
-        else return "F";
+        else if (numericGrade >= document.getElementById("FBoundaryInput").value) return "F";
+        else return "l";
     }
 }
 
@@ -95,7 +96,8 @@ function updateStats(students){
     let lowest = document.getElementById("MaxBoundaryInput").value;
     let lowestStudent = null;
     let medianArray = [];
-    let mean = 0;
+    let mean = 0; 
+    let count = 0;
     for(const student of students){
         if (highest < student.numericGrade && student.numericGrade <= document.getElementById("MaxBoundaryInput").value) {
             highest = student.numericGrade;
@@ -105,13 +107,16 @@ function updateStats(students){
             lowest = student.numericGrade;
             lowestStudent = student.name;
         }
-        mean += student.numericGrade;
-        medianArray.push(student.numericGrade);
+        if(student.numericGrade <= document.getElementById("MaxBoundaryInput").value && student.numericGrade >= document.getElementById("FBoundaryInput").value){
+            mean += student.numericGrade;
+            medianArray.push(student.numericGrade);
+        }
+        
     }
     document.getElementById("Highest").textContent = highestStudent + " (" + highest + "%)";
     document.getElementById("Lowest").textContent = lowestStudent + " (" + lowest + "%)";
     if(students.length !== 0){
-        mean /= students.length;
+        mean /= medianArray.length;
     }
     document.getElementById("mean").textContent = mean.toFixed(2);
     document.getElementById("median").textContent = calculateMedian(medianArray).toFixed(2);
@@ -128,16 +133,13 @@ function calculateMedian(medianArray){
     const isOdd = len % 2;
 
     if(!isOdd){
-        const middle1 = medianArray[len / 2 - 1];
-        const middle2 = medianArray[len / 2];
-        return (middle1 + middle2)/2;
+        return (medianArray[len / 2 - 1] + medianArray[len / 2])/2;
     }
     else{
         return medianArray[Math.floor(len/2)];
     }
-
-
 }
+
 
 document.getElementById("MaxBoundaryInput").addEventListener('input', function(){
     const newValue = this.value;
@@ -232,7 +234,6 @@ function init(){
     var StudentGrade = changeNumberintoChart(histogramData);
     updateHistogram(StudentGrade);
     updateStats(students);
-    console.log(StudentGrade);
     document.querySelectorAll(".lowerBoundsValue").forEach(input=> {
         input.addEventListener('change', function(){
             histogramData.length = 0;
@@ -240,10 +241,8 @@ function init(){
             const newHistogramData = fillGrade(students);
             const newStudentGrade = changeNumberintoChart(newHistogramData);
     
-            // Update the histogram and stats with the new data
             updateHistogram(newStudentGrade);
             updateStats(students);
-            console.log(newStudentGrade);
         })
     })
 }
