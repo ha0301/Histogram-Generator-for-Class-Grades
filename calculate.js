@@ -25,8 +25,7 @@ class Student{
 
 class LetterGrade {
     static convert(numericGrade) {
-        if (numericGrade > document.getElementById("MaxBoundaryInput").value){}
-        else if (numericGrade <= document.getElementById("MaxBoundaryInput").value && numericGrade >= document.getElementById("AplusBoundaryInput").value) return "A+";
+        if (numericGrade <= 100 && numericGrade >= document.getElementById("AplusBoundaryInput").value) return "A+";
         else if (numericGrade >= document.getElementById("ABoundaryInput").value) return "A";
         else if (numericGrade >= document.getElementById("AminusBoundaryInput").value) return "A-";
         else if (numericGrade >= document.getElementById("BplusBoundaryInput").value) return "B+";
@@ -36,9 +35,11 @@ class LetterGrade {
         else if (numericGrade >= document.getElementById("CBoundaryInput").value) return "C";
         else if (numericGrade >= document.getElementById("CminusBoundaryInput").value) return "C-";
         else if (numericGrade >= document.getElementById("DBoundaryInput").value) return "D";
-        else if (numericGrade >= document.getElementById("FBoundaryInput").value) return "F";
-        else return "l";
+        else if (numericGrade >= 0) return "F";
+        else return "";
+        
     }
+        
 }
 
 
@@ -46,12 +47,24 @@ class LetterGrade {
 
 //Function that return the number of student that get a specific letter grade
 function countStudent(students, desireLetterGrade){
+    let flag = false;
     let count = 0;
     for(const student of students){
-        if (LetterGrade.convert(student.numericGrade) === desireLetterGrade) {
+        if (student.numericGrade <= 100 && student.numericGrade > 0 && LetterGrade.convert(student.numericGrade) === desireLetterGrade) {
             count++;
         }
+        else if(LetterGrade.convert(student.numericGrade) === ""){
+            flag = true;
+        }
     }
+    if(flag == true){
+        var message = document.getElementById("message");
+        message.textContent = " There's an input data is out of bound. It will be excluded from histogram and stats!!!!";
+        setTimeout(function(){
+            message.style.display = "none";
+        }, 5000);
+    }
+    
     return count;
 }
 
@@ -93,21 +106,21 @@ function updateHistogram(StudentGrade){
 function updateStats(students){
     let highest = 0;
     let highestStudent = null;
-    let lowest = document.getElementById("MaxBoundaryInput").value;
+    let lowest = 100;
     let lowestStudent = null;
     let medianArray = [];
     let mean = 0; 
     let count = 0;
     for(const student of students){
-        if (highest < student.numericGrade && student.numericGrade <= document.getElementById("MaxBoundaryInput").value) {
+        if (highest < student.numericGrade && student.numericGrade <= 100) {
             highest = student.numericGrade;
             highestStudent = student.name;
         }
-        if(lowest > student.numericGrade && student.numericGrade >= document.getElementById("FBoundaryInput").value) {
+        if(lowest > student.numericGrade && student.numericGrade >= 0) {
             lowest = student.numericGrade;
             lowestStudent = student.name;
         }
-        if(student.numericGrade <= document.getElementById("MaxBoundaryInput").value && student.numericGrade >= document.getElementById("FBoundaryInput").value){
+        if(student.numericGrade <= 100 && student.numericGrade >= 0){
             mean += student.numericGrade;
             medianArray.push(student.numericGrade);
         }
@@ -141,9 +154,6 @@ function calculateMedian(medianArray){
 }
 
 
-document.getElementById("MaxBoundaryInput").addEventListener('input', function(){
-    const newValue = this.value;
-});
 document.getElementById("AplusBoundaryInput").addEventListener('input', function(){
     const newValue = this.value;
 });
@@ -174,9 +184,6 @@ document.getElementById("CminusBoundaryInput").addEventListener('input', functio
 document.getElementById("DBoundaryInput").addEventListener('input', function(){
     const newValue = this.value;
 });
-document.getElementById("FBoundaryInput").addEventListener('input', function(){
-    const newValue = this.value;
-});
 
 
 
@@ -204,17 +211,45 @@ function ParseIntToChartData(numberofStudent){
 }
 
 document.querySelectorAll(".lowerBoundsValue").forEach(input=> {
-    input.addEventListener('input', function(){
-        // Get the current input value
-    const inputValue = input.value;
-    const pattern = /^\d+$/;
+    input.addEventListener('change', function(){
+        const inputValue = input.value;
+        const pattern = /^(-?\d+(\.\d)?)$/;
+        // Check if the input matches the pattern
+        if (!pattern.test(inputValue)) {
+            setLowerBoundValueToDefault();
+        }
 
-    // Check if the input matches the pattern
-    if (!pattern.test(inputValue)) {
-        input.value = "";
-    }
+
+        if(100 < parseFloat(document.getElementById("AplusBoundaryInput").value)
+            || parseFloat(document.getElementById("AplusBoundaryInput").value) < parseFloat(document.getElementById("ABoundaryInput").value)
+            || parseFloat(document.getElementById("ABoundaryInput").value) < parseFloat(document.getElementById("AminusBoundaryInput").value)
+            || parseFloat(document.getElementById("AminusBoundaryInput").value) < parseFloat(document.getElementById("BplusBoundaryInput").value)
+            || parseFloat(document.getElementById("BplusBoundaryInput").value) < parseFloat(document.getElementById("BBoundaryInput").value)
+            || parseFloat(document.getElementById("BBoundaryInput").value) < parseFloat(document.getElementById("BminusBoundaryInput").value)
+            || parseFloat(document.getElementById("BminusBoundaryInput").value) < parseFloat(document.getElementById("CplusBoundaryInput").value)
+            || parseFloat(document.getElementById("CplusBoundaryInput").value) < parseFloat(document.getElementById("CBoundaryInput").value)
+            || parseFloat(document.getElementById("CBoundaryInput").value) < parseFloat(document.getElementById("CminusBoundaryInput").value)
+            || parseFloat(document.getElementById("CminusBoundaryInput").value) < parseFloat(document.getElementById("DBoundaryInput").value)
+            || parseFloat(document.getElementById("DBoundaryInput").value) < 0){
+            
+                setLowerBoundValueToDefault();
+        }
+
     })
 })
+
+function setLowerBoundValueToDefault(){
+    document.getElementById("AplusBoundaryInput").value = "95.00";
+    document.getElementById("ABoundaryInput").value = "90.00";
+    document.getElementById("AminusBoundaryInput").value = "85.00";
+    document.getElementById("BplusBoundaryInput").value = "80.00";
+    document.getElementById("BBoundaryInput").value = "75.00";
+    document.getElementById("BminusBoundaryInput").value = "70.00";
+    document.getElementById("CplusBoundaryInput").value = "65.00";
+    document.getElementById("CBoundaryInput").value = "60.00";
+    document.getElementById("CminusBoundaryInput").value = "55.00";
+    document.getElementById("DBoundaryInput").value = "50.00";
+}
 
 function init(){
     document.getElementById('fileInput').addEventListener('change', handleFileSelect, false);
@@ -234,6 +269,8 @@ function init(){
     var StudentGrade = changeNumberintoChart(histogramData);
     updateHistogram(StudentGrade);
     updateStats(students);
+    console.log(StudentGrade);
+    
     document.querySelectorAll(".lowerBoundsValue").forEach(input=> {
         input.addEventListener('change', function(){
             histogramData.length = 0;
@@ -243,6 +280,7 @@ function init(){
     
             updateHistogram(newStudentGrade);
             updateStats(students);
+            
         })
     })
 }
