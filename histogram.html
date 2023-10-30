@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang = "en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, intial-scale=1.0">
+    <title>Histogram</title>
+    <link rel="stylesheet" href="histogram.css">
+    
+</head>
+<body onload="init()">
+
+    <header>
+        <h1>Histogram Generator</h1>
+    </header>
+
+    
+    <input id ="fileInput" type="file" name = "file" onclick="this.value=null;"/>
+    <pre id="fileContent"></pre>
+    
+
+    <div id = "table1">
+        <section id = "first"> 
+            <h2>Lower bounds</h2>
+            <table id = "lowerBounds"  >
+                <tr><th>Max</th> <td><input type="text" class="lowerBoundsValue" id="MaxBoundaryInput" value = "100"></td></tr>
+                <tr><th>A+</th> <td><input type="text" class="lowerBoundsValue" id="AplusBoundaryInput" value = "95"></td></tr>
+                <tr><th>A</th> <td><input type="text" class="lowerBoundsValue" id="ABoundaryInput" value = "90"></td></tr>
+                <tr><th>A-</th> <td><input type="text" class="lowerBoundsValue" id="AminusBoundaryInput" value = "85"></td></tr>
+                <tr><th>B+</th> <td><input type="text" class="lowerBoundsValue" id="BplusBoundaryInput" value = "80"></td></tr>
+                <tr><th>B</th> <td><input type="text" class="lowerBoundsValue" id="BBoundaryInput" value = "75"></td></tr>
+                <tr><th>B-</th> <td><input type="text" class="lowerBoundsValue" id="BminusBoundaryInput" value = "70"></td></tr>
+                <tr><th>C+</th> <td><input type="text" class="lowerBoundsValue" id="CplusBoundaryInput" value = "65"></td></tr>
+                <tr><th>C</th> <td><input type="text" class="lowerBoundsValue" id="CBoundaryInput" value = "60"></td></tr>
+                <tr><th>C-</th> <td><input type="text" class="lowerBoundsValue" id="CminusBoundaryInput" value = "55"></td></tr>
+                <tr><th>D</th> <td><input type="text" class="lowerBoundsValue" id="DBoundaryInput" value = "50"></td></tr>
+                <tr><th>F</th> <td><input type="text" class="lowerBoundsValue" id="FBoundaryInput" value = "0"></td></tr>
+            </table>
+           
+        </section>
+        <section id = "second">
+            <section class = "sub1">
+            <h2>Histogram</h2>
+            <table id = "histogram">
+                <tr><th>A+</th> <td class="histogramValue" id = "Aplus"></td></tr>
+                <tr><th>A</th> <td class="histogramValue" id = "A"></td></tr>
+                <tr><th>A-</th> <td class="histogramValue" id = "Aminus"></td></tr>
+                <tr><th>B+</th> <td class="histogramValue" id = "Bplus"></td></tr>
+                <tr><th>B</th> <td class="histogramValue" id = "B"></td></tr>
+                <tr><th>B-</th> <td class="histogramValue" id = "Bminus"></td></tr>
+                <tr><th>C+</th> <td class="histogramValue" id = "Cplus"></td></tr>
+                <tr><th>C</th> <td class="histogramValue" id = "C"></td></tr>
+                <tr><th>C-</th> <td class="histogramValue" id = "Cminus"></td></tr>
+                <tr><th>D</th> <td class="histogramValue" id = "D"></td></tr>
+                <tr><th>F</th> <td class="histogramValue" id = "F"></td></tr>
+            </table>
+            </section>
+            <section  class = "sub2">
+                <h2>Stats</h2>
+                <table id = "Stats">
+                    <tr><th>Highest</th> <td id = "Highest"></td></tr>
+                    <tr><th>Lowest</th> <td id = "Lowest"></td></tr>
+                    <tr><th>Mean</th> <td id = "mean"></td></tr>
+                    <tr><th>Median</th> <td id = "median"></td></tr>
+                </table>
+            </section>
+        </section>
+        
+    
+    </div>
+    <script type="text/javascript" src="calculate.js"></script>
+</body>
+</html>

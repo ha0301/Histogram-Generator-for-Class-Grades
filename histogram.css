@@ -1,0 +1,52 @@
+th{
+    padding: 5px 90px 5px 40px;
+    text-align: left;
+}
+
+#table1{
+    display: flex;
+    padding-top: 20px;
+}
+
+section{
+    flex: 1;
+    padding-left: 30px;
+    border: 1px solid transparent;
+    margin: 2px;
+}
+
+h2{
+    color: #CC0633;
+    text-align: left;
+
+}
+
+#first{
+    padding-bottom: 20px;
+    background-color: #E9EEF0;
+}
+
+
+span{
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+
+#lowerBounds{
+    border-collapse: separate;
+    border-spacing: 15px;
+}
+
+.sub1{
+    position: relative;
+    margin-bottom: 20px;
+    padding-bottom: 50px;
+    background-color: #E9EEF0;
+}
+
+.sub2{
+    position: relative;
+    top: 10px;
+    background-color: #E9EEF0;
+    padding-bottom: 50px;
+}
