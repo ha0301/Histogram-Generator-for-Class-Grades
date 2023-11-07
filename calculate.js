@@ -1,17 +1,23 @@
 function parseCSVData(csvData) {
-    const students = [];
-
-    const rows = csvData.split('\n');
+    var students = [];
+    var alertCount = 0;
+    var rows = csvData.split('\n');
     for (let i = 1; i < rows.length; i++) {
         const columns = rows[i].split(',');
         if (columns.length === 2) {
             const name = columns[0].trim();
             const numericGrade = parseFloat(columns[1].trim());
-
+            if(numericGrade > 100 || numericGrade < 0){
+                alertCount++;
+                
+            }else{
             students.push(new Student(name, numericGrade));
+            }
         }
     }
-
+    if(alertCount > 0){
+        alert("ERROR! There are " + alertCount + " input(s) out of bound.\nIt will note be included in Histogram and Stats");
+    }
     return students;
 }
 
@@ -47,22 +53,11 @@ class LetterGrade {
 
 //Function that return the number of student that get a specific letter grade
 function countStudent(students, desireLetterGrade){
-    let flag = false;
     let count = 0;
     for(const student of students){
         if (student.numericGrade <= 100 && student.numericGrade > 0 && LetterGrade.convert(student.numericGrade) === desireLetterGrade) {
             count++;
         }
-        else if(LetterGrade.convert(student.numericGrade) === ""){
-            flag = true;
-        }
-    }
-    if(flag == true){
-        var message = document.getElementById("message");
-        message.textContent = " There's an input data is out of bound. It will be excluded from histogram and stats!!!!";
-        setTimeout(function(){
-            message.style.display = "none";
-        }, 5000);
     }
     
     return count;

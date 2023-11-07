@@ -1,3 +1,8 @@
+h1{
+    font-size: 50px;
+}
+
+
 th{
     padding: 5px 90px 5px 40px;
     text-align: left;
@@ -18,7 +23,7 @@ section{
 h2{
     color: #CC0633;
     text-align: left;
-
+    font-size: 30px;
 }
 
 #first{
@@ -42,14 +47,23 @@ span{
     margin-bottom: 20px;
     padding-bottom: 50px;
     background-color: #E9EEF0;
+    margin-right: 40px;
 }
 
 .sub2{
     position: relative;
-    top: 10px;
+    top: 5px;
     background-color: #E9EEF0;
     padding-bottom: 50px;
+    margin-right: 40px;
 }
-h3{
-    color: red;
+
+#mainContent{
+    background-color: white;
+    padding-bottom: 200px;
+    margin-right: 40px;
+}
+
+body{
+    background-color: #A6192E;
 }
