@@ -5,6 +5,9 @@
     <meta name="viewport" content="width=device-width, intial-scale=1.0">
     <title>Histogram</title>
     <link rel="stylesheet" href="histogram.css">
+    <script
+    src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js">
+    </script>
     
 </head>
 <body onload="init()">
@@ -53,6 +56,7 @@
                 <tr><th>D</th> <td class="histogramValue" id = "D"></td></tr>
                 <tr><th>F</th> <td class="histogramValue" id = "F"></td></tr>
             </table>
+            <canvas id="myChart" style="width:100%;max-width:700px"></canvas>
             </section>
             <section  class = "sub2">
                 <h2>Stats</h2>

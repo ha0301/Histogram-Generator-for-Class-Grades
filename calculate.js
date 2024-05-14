@@ -205,6 +205,52 @@ function ParseIntToChartData(numberofStudent){
     return null;
 }
 
+function chartData(students){
+    var StudentGrade = [];
+    StudentGrade.push(countStudent(students, "A+"));
+    StudentGrade.push(countStudent(students, "A"));
+    StudentGrade.push(countStudent(students, "A-"));
+    StudentGrade.push(countStudent(students, "B+"));
+    StudentGrade.push(countStudent(students, "B"));
+    StudentGrade.push(countStudent(students, "B-"));
+    StudentGrade.push(countStudent(students, "C+"));
+    StudentGrade.push(countStudent(students, "C"));
+    StudentGrade.push(countStudent(students, "C-"));
+    StudentGrade.push(countStudent(students, "D"));
+    StudentGrade.push(countStudent(students, "F"));
+
+    console.log("Generating chart with data:", StudentGrade);
+    var xValues = ["A+", "A", "A-", "B+", "B", "B-", "C+", "C", "C-", "D", "F"]
+
+    var yValues = StudentGrade;
+
+    var maxY = Math.max(...yValues);
+
+
+    new Chart ("myChart", {
+        type: "bar",
+        data: {
+            labels: xValues,
+            datasets: [{
+                backgroundColor: "#A6192E",
+                data: yValues
+            }]
+        },
+        options: {
+            scales: {
+                yAxes:[{
+                    ticks:{
+                        beginAtZero: true,
+                        suggestedMin: 0,
+                        suggestedMax: maxY + 1,
+                        stepSize: 1
+                    }
+                }]
+            }
+        }
+    });
+}
+
 document.querySelectorAll(".lowerBoundsValue").forEach(input=> {
     input.addEventListener('change', function(){
         const inputValue = input.value;
@@ -262,9 +308,10 @@ function init(){
 
     var histogramData = fillGrade(students);
     var StudentGrade = changeNumberintoChart(histogramData);
+    chartData(students);
     updateHistogram(StudentGrade);
     updateStats(students);
-    console.log(StudentGrade);
+    
     
     document.querySelectorAll(".lowerBoundsValue").forEach(input=> {
         input.addEventListener('change', function(){
@@ -273,8 +320,10 @@ function init(){
             const newHistogramData = fillGrade(students);
             const newStudentGrade = changeNumberintoChart(newHistogramData);
     
+            chartData(students);
             updateHistogram(newStudentGrade);
             updateStats(students);
+            
             
         })
     })
